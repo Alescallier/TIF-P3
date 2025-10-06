@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - Tienda de Ropa</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🛍️ Mi Tienda de Ropa</h1>
+            <nav>
+                <button id="btnVolver" class="btn-volver">← Volver a la tienda</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Tu Carrito de Compras</h2>
+        
+        <div id="carritoVacio" class="carrito-vacio">
+            <p>Tu carrito está vacío</p>
+            <button id="btnVolverVacio" class="btn-primary">Ir a comprar</button>
+        </div>
+
+        <div id="carritoContenido" class="carrito-contenido" style="display: none;">
+            <div class="carrito-items" id="carritoItems">
+                <!-- Los items del carrito se cargarán aquí -->
+            </div>
+
+            <div class="carrito-resumen">
+                <h3>Resumen de compra</h3>
+                <div class="resumen-linea">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0</span>
+                </div>
+                <div class="resumen-linea">
+                    <span>Envío:</span>
+                    <span id="envio">$500</span>
+                </div>
+                <div class="resumen-linea total">
+                    <span><strong>Total:</strong></span>
+                    <span id="total"><strong>$0</strong></span>
+                </div>
+                <button id="btnFinalizarCompra" class="btn-primary btn-grande">Finalizar Compra</button>
+            </div>
+        </div>
+
+        <!-- Modal de Checkout -->
+        <div id="modalCheckout" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar">&times;</span>
+                <h2>Completar Compra</h2>
+                <form id="formCheckout">
+                    <div class="form-seccion">
+                        <h3>Datos Personales</h3>
+                        <div class="form-grupo">
+                            <label for="nombre">Nombre *</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label for="apellido">Apellido *</label>
+                            <input type="text" id="apellido" name="apellido" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label for="dni">DNI *</label>
+                            <input type="text" id="dni" name="dni" pattern="[0-9]{7,8}" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label for="telefono">Teléfono *</label>
+                            <input type="tel" id="telefono" name="telefono" required>
+                        </div>
+                    </div>
+
+                    <div class="form-seccion">
+                        <h3>Forma de Pago</h3>
+                        <div class="form-grupo">
+                            <label for="formaPago">Método de pago *</label>
+                            <select id="formaPago" name="formaPago" required>
+                                <option value="">Selecciona un método</option>
+                                <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                                <option value="transferencia">Transferencia Bancaria</option>
+                                <option value="efectivo">Efectivo</option>
+                            </select>
+                        </div>
+
+                        <!-- Datos de Tarjeta -->
+                        <div id="datosTarjeta" class="datos-pago" style="display: none;">
+                            <div class="form-grupo">
+                                <label for="numeroTarjeta">Número de Tarjeta *</label>
+                                <input type="text" id="numeroTarjeta" name="numeroTarjeta" pattern="[0-9]{16}" maxlength="16" placeholder="1234567890123456">
+                            </div>
+                            <div class="form-fila">
+                                <div class="form-grupo">
+                                    <label for="vencimiento">Vencimiento *</label>
+                                    <input type="text" id="vencimiento" name="vencimiento" placeholder="MM/AA" pattern="[0-9]{2}/[0-9]{2}" maxlength="5">
+                                </div>
+                                <div class="form-grupo">
+                                    <label for="cvv">CVV *</label>
+                                    <input type="text" id="cvv" name="cvv" pattern="[0-9]{3,4}" maxlength="4" placeholder="123">
+                                </div>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="nombreTitular">Nombre del Titular *</label>
+                                <input type="text" id="nombreTitular" name="nombreTitular">
+                            </div>
+                        </div>
+
+                        <!-- Datos de Transferencia -->
+                        <div id="datosTransferencia" class="datos-pago" style="display: none;">
+                            <div class="info-transferencia">
+                                <p><strong>Datos para transferencia:</strong></p>
+                                <p>CBU: 0123456789012345678901</p>
+                                <p>Alias: TIENDA.ROPA</p>
+                                <p>Titular: Mi Tienda de Ropa S.A.</p>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="comprobanteTransferencia">Número de comprobante *</label>
+                                <input type="text" id="comprobanteTransferencia" name="comprobanteTransferencia" placeholder="Ingresá el número de comprobante">
+                            </div>
+                        </div>
+
+                        <!-- Datos de Efectivo -->
+                        <div id="datosEfectivo" class="datos-pago" style="display: none;">
+                            <div class="info-efectivo">
+                                <p><strong>Pago en efectivo:</strong></p>
+                                <p>Podrás abonar en efectivo al momento de recibir tu pedido.</p>
+                                <p>Por favor, tené el monto exacto disponible.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-acciones">
+                        <button type="button" class="btn-secondary" id="btnCancelar">Cancelar</button>
+                        <button type="submit" class="btn-primary">Confirmar Compra</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmación -->
+        <div id="modalConfirmacion" class="modal">
+            <div class="modal-contenido modal-exito">
+                <h2>✅ ¡Compra Realizada con Éxito!</h2>
+                <p>Tu pedido ha sido procesado correctamente.</p>
+                <p>Recibirás un email de confirmación en breve.</p>
+                <p><strong>Número de orden: #<span id="numeroOrden"></span></strong></p>
+                <button id="btnVolverTienda" class="btn-primary">Volver a la Tienda</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mi Tienda de Ropa. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="carrito.js"></script>
+</body>
+</html>
