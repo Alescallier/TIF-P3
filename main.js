@@ -148,3 +148,27 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCarrito.addEventListener('click', irAlCarrito);
     }
 });
+
+// ===============================
+// Inicializar el carrusel (Slick)
+// ===============================
+document.addEventListener('DOMContentLoaded', function () {
+  // Verifica que jQuery y Slick estén cargados
+  if (window.jQuery && typeof jQuery.fn.slick === 'function') {
+    $('.slider-destacados').slick({
+      slidesToShow: 2,         // Muestra 2 productos a la vez
+      slidesToScroll: 1,
+      dots: true,              // Muestra los puntitos de navegación
+      arrows: true,            // Muestra las flechas
+      infinite: true,
+      autoplay: true,          // Avanza automáticamente
+      autoplaySpeed: 2000,     // Cada 2 segundos
+      responsive: [
+        { breakpoint: 900,  settings: { slidesToShow: 1 } },
+        { breakpoint: 600,  settings: { slidesToShow: 1 } }
+      ]
+    });
+  } else {
+    console.warn("Slick no se cargó correctamente.");
+  }
+});
