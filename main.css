@@ -499,3 +499,86 @@ footer {
         width: 100%;
     }
 }
+
+/* ===== Carrusel de destacados (Slick) ===== */
+.productos-destacados {
+  padding: 24px 0;
+  color: #f5f5f5;
+}
+
+.productos-destacados h2 {
+  margin-bottom: 16px;
+  font-size: 1.6rem;
+  color: #f5f5f5;
+}
+
+.slider-destacados .card {
+  padding: 16px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin: 0 8px;
+}
+
+.slider-destacados .emoji {
+  font-size: 80px;
+  margin-bottom: 12px;
+}
+
+.slider-destacados .card h3 {
+  margin: 6px 0 2px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+.slider-destacados .precio {
+  color: #ccc;
+  margin-bottom: 8px;
+}
+
+.slider-destacados .btn-agregar {
+  background: #111;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider-destacados .btn-agregar:hover {
+  background: #333;
+}
+
+/* Mejorar visibilidad de flechas */
+.slick-prev:before, .slick-next:before {
+  color: #fff;
+}
+
+.item-carrito {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.item-carrito .emoji {
+  font-size: 64px;
+  margin: 0;
+}
+
+#vaciar-carrito {
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #c0392b;
+  color: #fff;
+  cursor: pointer;
+}
+
+#vaciar-carrito:hover {
+  background: #e74c3c;
+}
