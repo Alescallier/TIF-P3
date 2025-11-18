@@ -1,146 +1,185 @@
-# TIF-P3
+# 🛍️ Amictus – Tienda de Ropa Online
+
+**E-commerce dinámico desarrollado en PHP, MySQL y JavaScript.**
+
+Amictus es un proyecto completo de e-commerce que incluye catálogo dinámico desde base de datos, carrito persistente, panel administrativo con CRUD, login de administrador, y simulación de checkout. Está diseñado para escalar hacia API de pagos reales, integración de servicios de envío y despliegue en hosting.
 
 ---
 
-##  Informe de Implementación — Carrusel de Productos Destacados (Slick Carousel)
+## 🚀 Características principales
 
-###  Objetivo
+### 🧑‍💻 **Frontend**
 
-Incorporar un **carrusel dinámico de productos destacados** en la página principal (`index.html`) utilizando el plugin **Slick Carousel (jQuery)**, logrando un desplazamiento automático de productos cada 2 segundos y manteniendo la funcionalidad de agregar productos al carrito.
+* Renderizado dinámico de productos desde MySQL.
+* Carrito de compras persistente con **localStorage**.
+* Cálculo automático de subtotal, envío y total.
+* Modales animados para checkout y confirmación.
+* Interfaz responsive y estilizada.
+
+### 🗄️ **Backend**
+
+* PHP con conexión modular a MySQL.
+* CRUD completo de productos (crear, listar, editar, eliminar).
+* Login de administrador con `$_SESSION`.
+* Protección de rutas del panel admin.
+* Generación dinámica de vistas con PHP.
+
+### 🧷 **Base de datos**
+
+* Tablas normalizadas:
+
+  * `categorias`
+  * `productos`
+* Llaves primarias y foráneas.
+* Codificación UTF-8 para compatibilidad con emojis como imágenes.
 
 ---
 
-###  Cambios Realizados
+## 🧱 Estructura del proyecto
 
-#### 1. **Instalación e integración del plugin Slick**
-
-Se añadieron las dependencias del carrusel a `index.html` mediante **CDN**, asegurando la carga correcta de los estilos y scripts antes de `main.js`:
-
-<!-- Slick CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
-
-<!-- jQuery y Slick JS -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-
-<!-- Script principal -->
-<script src="main.js"></script>
+```
+/amictus
+│── index.php
+│── carrito.php
+│── login.php
+│── validar_login.php
+│── logout.php
+│── admin_productos.php
+│── obtener_productos.php
+│── conexion.php
+│── main.js
+│── carrito.js
+│── main.css
+│── /img (opcional)
+└── /sql (backups opcionales)
 ```
 
->  **Importante:** el orden de carga garantiza que Slick y jQuery estén disponibles antes de ejecutar el código personalizado.
+---
+
+## 🛠️ Tecnologías utilizadas
+
+### **Frontend**
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+* LocalStorage
+* Modales y renderizado dinámico
+
+### **Backend**
+
+* PHP 8+
+* Sesiones
+* Validación
+* CRUD con MySQLi
+
+### **Base de datos**
+
+* MySQL / MariaDB
+* Tablas relacionales
+* UTF-8 para emojis
+
+### **Entorno**
+
+* XAMPP / Apache
+* phpMyAdmin
 
 ---
 
-#### 2. **Estructura HTML del carrusel**
+## 🏗️ Instalación y uso
 
-Dentro del archivo `index.html`, se agregó una nueva sección llamada **Productos Destacados** con cuatro elementos representando prendas destacadas.
+### 1️⃣ Clonar el repositorio
 
-<section class="productos-destacados">
-  <h2>Productos destacados</h2>
-  <div class="slider-destacados">
-    <article class="card">
-      <div class="emoji">👕</div>
-      <h3>Remera Oversize</h3>
-      <p class="precio">$9.000</p>
-      <button class="btn-agregar" data-id="9">Agregar al Carrito</button>
-    </article>
-    <article class="card">
-      <div class="emoji">👖</div>
-      <h3>Jean Clásico</h3>
-      <p class="precio">$10.000</p>
-      <button class="btn-agregar" data-id="10">Agregar al Carrito</button>
-    </article>
-    <article class="card">
-      <div class="emoji">🧥</div>
-      <h3>Campera de Cuero</h3>
-      <p class="precio">$2.000</p>
-      <button class="btn-agregar" data-id="2">Agregar al Carrito</button>
-    </article>
-    <article class="card">
-      <div class="emoji">👖</div>
-      <h3>Pantalón Cargo</h3>
-      <p class="precio">$12.000</p>
-      <button class="btn-agregar" data-id="12">Agregar al Carrito</button>
-    </article>
-  </div>
-</section>
+```sh
+git clone https://github.com/usuario/amictus.git
 ```
 
-* Cada producto tiene un emoji representativo, nombre, precio y un botón que **usa `data-id`**, enlazado con la base de datos de productos definida en `main.js`.
-* Se eliminaron los antiguos `data-sku`, que no coincidían con los IDs del sistema actual de carrito.
+### 2️⃣ Importar la base de datos
 
----
+* Abrir **phpMyAdmin**
+* Crear una BD llamada `amictus`
+* Importar el archivo SQL correspondiente (si lo incluís)
 
-#### 3. **Inicialización del carrusel en `main.js`**
+### 3️⃣ Configurar conexión en `conexion.php`
 
-Se agregó un bloque de código al final de `main.js` para inicializar Slick una vez que el DOM y las librerías estén completamente cargadas.
-
-```js
-// ===============================
-// Inicializar el carrusel (Slick)
-// ===============================
-document.addEventListener('DOMContentLoaded', function () {
-  if (window.jQuery && typeof jQuery.fn.slick === 'function') {
-    $('.slider-destacados').slick({
-      slidesToShow: 2,
-      slidesToScroll: 1,
-      dots: true,
-      arrows: true,
-      infinite: true,
-      autoplay: true,
-      autoplaySpeed: 2000, // Cambio cada 2 segundos
-      responsive: [
-        { breakpoint: 900,  settings: { slidesToShow: 1 } },
-        { breakpoint: 600,  settings: { slidesToShow: 1 } }
-      ]
-    });
-  } else {
-    console.warn("Slick no se cargó correctamente.");
-  }
-});
+```php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "amictus";
 ```
 
-> 🔹 Este código detecta si Slick está disponible y luego activa el carrusel con desplazamiento automático cada 2 segundos.
-> 🔹 El carrusel se adapta a pantallas pequeñas, mostrando solo 1 producto a la vez.
+### 4️⃣ Ejecutar proyecto desde navegador
+
+```
+http://localhost/amictus/
+```
+
+### 5️⃣ Acceder al panel admin
+
+```
+http://localhost/amictus/login.php
+```
+
+**Credenciales por defecto:**
+
+* Usuario: `admin`
+* Contraseña: `admin`
 
 ---
 
-#### 4. **Eliminación de código duplicado**
+## 📦 Funcionalidades del CRUD admin
 
-Durante la integración se detectaron dos sistemas de carrito activos:
-
-* Uno antiguo (basado en la clave `carrito`)
-* Uno actual (basado en `carritoTienda`)
-
-El sistema viejo fue eliminado completamente (incluyendo la función `inicializarCarrito()`) para evitar conflictos y asegurar que todo el flujo use una única clave (`carritoTienda`) en `localStorage`.
-
----
-
-###  Resultado Final
-
-* El **carrusel de productos destacados** se desplaza automáticamente cada 2 segundos.
-* Los productos del carrusel pueden **agregarse correctamente al carrito**.
-* El **contador de carrito** se actualiza en tiempo real en el header.
-* Todo el sistema usa una única fuente de datos (`carritoTienda`) para sincronizar `index.html` y `carrito.html`.
+* Crear productos
+* Editar productos
+* Eliminar productos
+* Gestión de categorías
+* Campos compatibles con emojis
+* Interfaz moderna con modales
 
 ---
 
-###  Consideraciones Técnicas
+## 📋 Roadmap / Próximas funciones
 
-* Se garantiza compatibilidad con pantallas móviles mediante `responsive breakpoints`.
-* La animación de Slick se basa en jQuery, por lo que su carga es obligatoria antes del script.
-* Si en el futuro se amplía el catálogo, basta con agregar nuevos `<article>` dentro de `.slider-destacados` con su respectivo `data-id`.
+### 🔒 Seguridad
+
+* Hash de contraseñas (`password_hash`)
+* Gestor de usuarios y roles
+* Tokens CSRF
+
+### 🛒 E-commerce real
+
+* Sistema de usuarios/clientes
+* Órdenes almacenadas en la BD
+* Carrito sincronizado por usuario
+
+### 💳 Integraciones
+
+* MercadoPago API
+* PayPal / Stripe
+* APIs de envío (Andreani, OCA, Correo Argentino)
+
+### 🌐 Deploy
+
+* Hosting Apache/Nginx
+* Configuración HTTPS
+* Base de datos remota
 
 ---
 
-###  Archivos Modificados
+---
 
-| Archivo      | Descripción del cambio                                                             |
-| ------------ | ---------------------------------------------------------------------------------- |
-| `index.html` | Se agregaron dependencias de Slick y la nueva sección del carrusel.                |
-| `main.js`    | Se eliminó código duplicado y se añadió la inicialización del carrusel.            |
-| `main.css`   | Ya contenía los estilos base del carrusel (clases `.slider-destacados` y `.card`). |
-| `carrito.js` | Se unificó la clave `carritoTienda` para compatibilidad con `main.js`.             |
+## 📄 Licencia
+
+Este proyecto puede utilizarse con fines educativos o personales.
+Para uso comercial, contacta al autor.
+
+---
+
+## 👤 Autor
+
+**Alejandro Escallier**
+Estudiante de Ingeniería en Sistemas
+Desarrollador Backend / Fullstack en progreso
 
 ---
