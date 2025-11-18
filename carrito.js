@@ -80,27 +80,32 @@ function renderizarCarrito() {
 
 // Cambiar cantidad
 function cambiarCantidad(e) {
-    const id = parseInt(e.target.dataset.id);
+    const id = e.target.dataset.id; // mantener tipo original
     const accion = e.target.dataset.accion;
-    const item = carrito.find(i => i.id === id);
-    
+    const item = carrito.find(i => i.id == id); // comparación flexible
+
+    if (!item) return console.error("No se encontró el producto con ID:", id);
+
     if (accion === 'sumar') {
         item.cantidad++;
     } else if (accion === 'restar' && item.cantidad > 1) {
         item.cantidad--;
     }
-    
+
     guardarCarrito();
     renderizarCarrito();
 }
 
 // Eliminar item
 function eliminarItem(e) {
-    const id = parseInt(e.target.dataset.id);
-    carrito = carrito.filter(item => item.id !== id);
+    const id = e.target.dataset.id;
+
+    carrito = carrito.filter(item => item.id != id);
+
     guardarCarrito();
     renderizarCarrito();
 }
+
 
 // Actualizar totales
 function actualizarTotales() {
@@ -114,7 +119,7 @@ function actualizarTotales() {
 
 // Volver a la tienda
 function volverTienda() {
-    window.location.href = 'index.html';
+    window.location.href = 'index.php';
 }
 
 // Modal checkout
